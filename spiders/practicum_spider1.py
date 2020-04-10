@@ -187,7 +187,7 @@ select_dic = {'https://www.mckinsey.com/industries/healthcare-systems-and-servic
                                                                   'page_type': {'nonkey': 'blank'}}
 
               }
-
+#This begins scraping cites from the url list
 for urls in urlslist:
 
     class p_spider1(scrapy.Spider):
@@ -247,7 +247,6 @@ for urls in urlslist:
                 if select_dic[urls]['inf_scroll']['Type'] == 'pagination':
 
                     flink = response.xpath(select_dic[urls]['inf_scroll']['next_page']).extract()[0]
-                    print('LETS GOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO' + str(flink))
                     if flink != []:
                         yield response.follow(flink, callback=self.parse_cover)
 
@@ -256,14 +255,14 @@ for urls in urlslist:
                     flink = next_link[-1]
                     yield response.follow(flink, callback=self.parse_cover)
 
+                    
+                    
 #Parses article page for Title, Author, Text, date, type
         def parse(self, response):
             link = response.request.url
             print(self.Article_type)
             if link in self.Article_type.keys():
                 if self.Article_type[link] in select_dic[urls]['page_type'].keys():
-                    print(
-                        'YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY')
                     sel_title = select_dic[urls]['page_type'][self.Article_type[link]]['title']
                     print(sel_title)
                     sel_body = select_dic[urls]['page_type'][self.Article_type[link]]['body']
